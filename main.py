@@ -9,7 +9,10 @@ class MyPlugin(Star):
 
     async def initialize(self):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
-
+    def get_greeting(name="World"):
+    """返回问候字符串的函数"""
+    return f"Hello, {name}!"
+    
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("helloworld")
     async def helloworld(self, event: AstrMessageEvent):
@@ -20,6 +23,8 @@ class MyPlugin(Star):
         logger.info(message_chain)
         #yield event.image_result("http://v9.img.360kuai.com/video/360_202_/t11508c75c8d3683d207fd5da5d.jpg?size=576x1024") # 发送 URL 图片，务必以 http 或 https 开头
         yield event.plain_result(f"Hello, {user_name}, 你发了 {message_str}!!!!") # 发送一条纯文本消息
+        texttest=get_greeting(message_str)
+        yield event.plain_result(f"Hello, {user_name}, 你发了 {texttest}!!!!") # 发送一条纯文本消
      # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("图片")
     async def photo(self, event: AstrMessageEvent):
