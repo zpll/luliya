@@ -14,6 +14,28 @@ class MyPlugin(Star):
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("helloworld")
     async def helloworld(self, event: AstrMessageEvent):
+        def query(codeid):
+                """最简单的版本"""
+                url = "http://gzrsks.oumakspt.com:62/tyzpwb/stuchooseexam/getPositionInfo.htm"
+                
+                headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36",
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Referer": "http://gzrsks.oumakspt.com:62/tyzpwb/stuchooseexam/selectPosition.htm"
+                }
+                
+                data = {
+                    "zwdm": codeid,
+                    "examid": "796a0fa25f7c9ffb"
+                }
+                
+                try:
+                    response = requests.post(url, data=data, headers=headers, timeout=10)
+                    return response.text
+                except Exception as e:
+                    return f"错误: {str(e)}"
+
         """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
         user_name = event.get_sender_name()
         message_str = event.message_str # 用户发的纯文本消息字符串
@@ -36,25 +58,3 @@ class MyPlugin(Star):
     async def terminate(self):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
     
-    def query(codeid):
-        """最简单的版本"""
-        url = "http://gzrsks.oumakspt.com:62/tyzpwb/stuchooseexam/getPositionInfo.htm"
-        
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36",
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-Requested-With": "XMLHttpRequest",
-            "Referer": "http://gzrsks.oumakspt.com:62/tyzpwb/stuchooseexam/selectPosition.htm"
-        }
-        
-        data = {
-            "zwdm": codeid,
-            "examid": "796a0fa25f7c9ffb"
-        }
-        
-        try:
-            response = requests.post(url, data=data, headers=headers, timeout=10)
-            return response.text
-        except Exception as e:
-            return f"错误: {str(e)}"
-
