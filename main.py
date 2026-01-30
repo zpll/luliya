@@ -17,6 +17,9 @@ class MyPlugin(Star):
     @filter.command("xm查询")
     async def xmsearch(self, event: AstrMessageEvent):
         """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
+        null="null"
+        false="false"
+        true="true"
         user_name = event.get_sender_name()
         message_str = event.message_str # 用户发的纯文本消息字符串
         message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
@@ -45,9 +48,6 @@ class MyPlugin(Star):
         "isShowArchive": true
         }
         data = json.dumps(data, separators=(',', ':'))
-        null="null"
-        false="false"
-        true="true"
         # 发送GET请求
         response = requests.post(url, headers=headers, data=data)
         data=response.text
