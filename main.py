@@ -13,36 +13,56 @@ class MyPlugin(Star):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
 
     
-  
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
-    @filter.command("helloworld")
-    async def helloworld(self, event: AstrMessageEvent):
-        url = "https://www.fuxingyihao.top/frontend/login/login.html"
+    @filter.command("xm查询")
+    async def xmsearch(self, event: AstrMessageEvent):
+        """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
+        user_name = event.get_sender_name()
+        message_str = event.message_str # 用户发的纯文本消息字符串
+        message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
+        logger.info(message_chain)
+        wupin=right = message_str.partition(' ')[2]
+        url = 'https://api.x-metash.cn/h5/home/searchAppNew'
         headers = {
-        "Accept": "*/*",
-        "Accept-Language": "zh-CN,zh;q=0.9",
-        "Connection": "keep-alive",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Origin": "https://www.fuxingyihao.top",
-        "Referer": "https://www.fuxingyihao.top/frontend/login/login.html",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin",
-        "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Mobile Safari/537.36",
-        "X-Requested-With": "XMLHttpRequest",
-        "sec-ch-ua-mobile": "?1"
+        "accept": "*/*",
+        "accept-language": "zh-CN,zh;q=0.9",
+        "authorization": "Bearer",
+        "content-type": "application/json",
+        "origin": "https://xmeta.x-metash.cn",
+        "priority": "u=1, i",
+        "referer": "https://xmeta.x-metash.cn/",
+        "sec-ch-ua-mobile": "?1",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "user-agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Mobile Safari/537.36"
         }
 
         data={
-        "account": "15845256545",
-        "password": "656565622",
-        "scene": "account"
+        "pageNum": 1,
+        "pageSize": 10,
+        "search": wupin,
+        "isShowArchive": true
         }
         data = json.dumps(data, separators=(',', ':'))
-
+        null="null"
+        false="false"
+        true="true"
         # 发送GET请求
         response = requests.post(url, headers=headers, data=data)
-       
+        data=response.text
+        resultText=""
+        for i, goods in enumerate(data['data']['goodsList'], 1):
+            resultText=resultText+f"\n商品{i}: {goods.get('name')} | 平台: {goods.get('platformName')} | 价格: ¥{goods.get('price')}"
+
+        
+        #yield event.image_result("http://v9.img.360kuai.com/video/360_202_/t11508c75c8d3683d207fd5da5d.jpg?size=576x1024") # 发送 URL 图片，务必以 http 或 https 开头
+        yield event.plain_result(f"{user_name},查询结果：\n {resultText}") # 发送一条纯文本消
+    # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
+
+
+    @filter.command("helloworld")
+    async def helloworld(self, event: AstrMessageEvent):
         """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
         user_name = event.get_sender_name()
         message_str = event.message_str # 用户发的纯文本消息字符串
@@ -50,7 +70,6 @@ class MyPlugin(Star):
         logger.info(message_chain)
         #yield event.image_result("http://v9.img.360kuai.com/video/360_202_/t11508c75c8d3683d207fd5da5d.jpg?size=576x1024") # 发送 URL 图片，务必以 http 或 https 开头
         yield event.plain_result(f"Hello, {user_name}, 你发了 {message_str}!!!!") # 发送一条纯文本消息
-        yield event.plain_result(f"Hello, {user_name}, 你发了 {response.text}!!!!") # 发送一条纯文本消
      # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("图片")
     async def photo(self, event: AstrMessageEvent):
