@@ -53,8 +53,8 @@ class MyPlugin(Star):
         response = requests.post(url, headers=headers, data=data)
         data=response.text
         resultText=""
-        for i, goods in enumerate(data['data']['goodsList'], 1):
-            resultText=resultText+f"\n商品{i}: {goods.get('name')} | 平台: {goods.get('platformName')} | 价格: ¥{goods.get('price')}"
+        #for i, goods in enumerate(data['data']['goodsList'], 1):
+           # resultText=resultText+f"\n商品{i}: {goods.get('name')} | 平台: {goods.get('platformName')} | 价格: ¥{goods.get('price')}"
 
         
         #yield event.image_result("http://v9.img.360kuai.com/video/360_202_/t11508c75c8d3683d207fd5da5d.jpg?size=576x1024") # 发送 URL 图片，务必以 http 或 https 开头
