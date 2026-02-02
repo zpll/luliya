@@ -51,14 +51,14 @@ class MyPlugin(Star):
         data = json.dumps(data, separators=(',', ':'))
         # 发送GET请求
         response = requests.post(url, headers=headers, data=data)
-        data=response.text
+        redata=response.text
         resultText=""
-        #for i, goods in enumerate(data['data']['goodsList'], 1):
+        #for i, goods in enumerate(redata['data']['goodsList'], 1):
            # resultText=resultText+f"\n商品{i}: {goods.get('name')} | 平台: {goods.get('platformName')} | 价格: ¥{goods.get('price')}"
 
         
         #yield event.image_result("http://v9.img.360kuai.com/video/360_202_/t11508c75c8d3683d207fd5da5d.jpg?size=576x1024") # 发送 URL 图片，务必以 http 或 https 开头
-        yield event.plain_result(f"{user_name},查询结果：\n {data}") # 发送一条纯文本消
+        yield event.plain_result(f"{user_name},查询结果：\n {redata}") # 发送一条纯文本消
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
 
 
