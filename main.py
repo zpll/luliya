@@ -24,7 +24,7 @@ class MyPlugin(Star):
         message_str = event.message_str # 用户发的纯文本消息字符串
         message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
         logger.info(message_chain)
-        wupin= message_str.split(' ', 1)[1] if ' ' in text else ""
+        wupin= message_str.split(' ', 1)[1] if ' ' in message_str else ""
         url = 'https://api.x-metash.cn/h5/home/searchAppNew'
         headers = {
         "accept": "*/*",
